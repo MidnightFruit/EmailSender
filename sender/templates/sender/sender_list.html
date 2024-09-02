@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Sender</h1>
+    <p class="lead">Sender - вы рядом с вашими клиентами всегда.</p>
+</div>
+{% if user.is_authenticated %}
+    <div class="px-3  mx-auto row">
+        <div class="list-group position-center">
+            {% for sender in object_list %}
+                {% if user.email == sender.company.email %}
+                  <a href= {% url "sender:sender_view" pk=sender.pk %} class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">{{ sender.title }}</h5>
+                      <small>{{ sender.created_at }}</small>
+                    </div>
+                    <p class="mb-1">{{ sender.company.company_name }}</p>
+                    <small>{{ sender.status }}</small>
+                  </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

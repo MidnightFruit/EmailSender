@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Ваши клиенты</h1>
+</div>
+{% if user.is_authenticated %}
+    <div class="row-2 py-3 mx-auto text-center">
+      <a class="btn btn-success" href={% url 'sender:create_client' %}> Добавить клиента </a>
+    </div>
+
+    <div class="px-3  mx-auto row">
+        <div class="list-group position-center">
+            {% for client in object_list %}
+                {% if user.email == client.company.email %}
+                     <div class="col-md-4 text-center">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal">{{ client.name }}</h4>
+                                <h4 class="my-0 font-weight-normal">{{ client.patronymic }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <p>
+                                    Ф.И.О. {{ client.name }} {{ client.surname }} {{ client.patronymic }}
+                                </p>
+                                <p>
+                                    {{ client.company.company_name }}
+                                </p>
+                                <a type="button" class="btn btn-lg btn-block btn-outline-primary" href={% url "sender:client" pk=client.pk %}>Подробно</a>
+                                <a type="button" class="btn btn-warning" href={% url "sender:update_client" pk=client.pk %} >Изменить </a>
+                                <a type="button" class="btn btn-danger" href={% url "sender:delete_client" client.pk%}> Удалить </a>
+                            </div>
+                        </div>
+                  </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
