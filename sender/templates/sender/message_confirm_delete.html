@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="col-12 text-center">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>Удалить клиента {{ object.header }}?</p>
+                        <button class="btn btn-danger" type="submit">Подтвердить</button>
+                        <a href={% url "sender:message_list" %} class="btn btn-light">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

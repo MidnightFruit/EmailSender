@@ -18,6 +18,7 @@ class ClientForm(forms.ModelForm):
         fields = '__all__'
         exclude = ('company',)
 
+
 class MessageForm(forms.ModelForm):
 
     class Meta:

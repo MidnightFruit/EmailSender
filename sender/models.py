@@ -28,6 +28,7 @@ class Message(models.Model):
         verbose_name = "сообщение"
         verbose_name_plural = "сообщения"
 
+
 class Sender(models.Model):
     FREQUENCIES = [
         ('ежедневно', 'Каждый день'),

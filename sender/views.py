@@ -119,8 +119,9 @@ class MessageCreateView(CreateView):
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('company:login')
     redirect_field_name = 'redirect_to'
+    success_url = reverse_lazy('sender:message_list')
     model = Message
-    fields = ('__all__')
+    form_class = MessageForm
 
 
 class MessageDeleteView(LoginRequiredMixin, DeleteView):
