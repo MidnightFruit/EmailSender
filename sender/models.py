@@ -15,6 +15,18 @@ class Client(models.Model):
         verbose_name = "клиент"
         verbose_name_plural = "клиенты"
 
+    def __str__(self):
+        return f"{self.name} {self.patronymic} {self.email}"
+
+
+class Message(models.Model):
+    header = models.CharField(max_length=100, verbose_name="заголовок сообщения")
+    body = models.TextField(verbose_name="текст сообщения")
+    owner = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, default=None)
+
+    class Meta:
+        verbose_name = "сообщение"
+        verbose_name_plural = "сообщения"
 
 class Sender(models.Model):
     FREQUENCIES = [
@@ -30,7 +42,8 @@ class Sender(models.Model):
     ]
     title = models.CharField(max_length=255, verbose_name='тема рассылки')
     company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="компания", null=True, blank=True, default=None)
-    clients = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name="клиенты", null=True, blank=True, default=None)
+    clients = models.ManyToManyField(Client, verbose_name="клиенты", related_name='clients')
+    message = models.ForeignKey(Message, on_delete=models.SET_NULL, verbose_name='сообщение', null=True, blank=True, default=None)
     created_at = models.DateTimeField(verbose_name="дата и время первого сообщения", auto_now_add=True)
     frequency = models.CharField(verbose_name="частота отправки", choices=FREQUENCIES)
     status = models.CharField(verbose_name="статус рассылки", choices=STATUSES)
@@ -39,15 +52,6 @@ class Sender(models.Model):
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
 
-
-class Massage(models.Model):
-    header = models.CharField(max_length=100, verbose_name="заголовок сообщения")
-    body = models.TextField(verbose_name="текст сообщения")
-    send = models.ForeignKey(Sender, on_delete=models.CASCADE, null=False, blank=True, default=None)
-
-    class Meta:
-        verbose_name = "сообщение"
-        verbose_name_plural = "сообщения"
 
 
 class DeliveryAttempt(models.Model):
