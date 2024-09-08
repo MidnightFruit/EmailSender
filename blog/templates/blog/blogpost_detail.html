@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ object.title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>{{ object.title }}</h1>
+        <h2>{{ object.slug }}</h2>
+        <p>Дата создания: {{ object.created_at }}</p>
+    </header>
+
+    <main>
+        <article>
+            <div class="content">
+                {{ object.content|linebreaks }}
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>Количество просмотров: {{ object.viewed }}</p>
+        {% if object.is_published %}
+            <p>Статья опубликована</p>
+        {% else %}
+            <p>Статья не опубликована</p>
+        {% endif %}
+    </footer>
+
+</body>
+</html>

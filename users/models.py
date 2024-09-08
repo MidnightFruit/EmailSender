@@ -13,3 +13,14 @@ class Company(AbstractUser):
     token = models.CharField(max_length=255, verbose_name="Токен", blank=True, null=True)
 
     REQUIRED_FIELDS = []
+
+    class Meta:
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
+        permissions = [
+            ('can_block_users', 'can block users'),
+            ('can_view_list_of_users', 'can view list of users')
+        ]
+
+    def __str__(self):
+        return self.email
