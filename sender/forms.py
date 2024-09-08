@@ -8,7 +8,7 @@ class SenderForm(forms.ModelForm):
     class Meta:
         model = Sender
         fields = '__all__'
-        exclude = ('company',)
+        exclude = ('company', "status",)
 
 
 class ClientForm(forms.ModelForm):

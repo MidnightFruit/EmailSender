@@ -1,11 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView, DeleteView
 
 from sender.forms import SenderForm, ClientForm, MessageForm
 from sender.models import Sender, Client, Message
-
 
 class ClientTemplateView(TemplateView):
     template_name = 'sender/client.html'
@@ -62,6 +61,7 @@ class SenderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         sender = form.save()
         sender.company = self.request.user
+        sender.status = Sender.STATUSES[1][0]
         sender.save()
         return super().form_valid(form)
 

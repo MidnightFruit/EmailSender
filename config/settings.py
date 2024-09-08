@@ -118,6 +118,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+CRONJOBS = [
+    ('*/1 * * * *', 'sender.tasks.send_messages')
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -147,12 +150,12 @@ EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', False) == 'True'
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# CACHE_ENABLED = True
-#
-# if CACHE_ENABLED:
-#     CACHE = {
-#         'default': {
-#             "BACKEND": 'django.core.cache.backends.redis.RedisCache',
-#             "LOCATION": os.getenv('CACHE_LOCATION')
-#         }
-#     }
+CACHE_ENABLED = True
+
+if CACHE_ENABLED:
+    CACHE = {
+        'default': {
+            "BACKEND": 'django.core.cache.backends.redis.RedisCache',
+            "LOCATION": os.getenv('CACHE_LOCATION')
+        }
+    }
