@@ -1,6 +1,6 @@
 from django import forms
 
-from sender.models import Sender, Client
+from sender.models import Sender, Client, Message
 
 
 class SenderForm(forms.ModelForm):
@@ -8,7 +8,7 @@ class SenderForm(forms.ModelForm):
     class Meta:
         model = Sender
         fields = '__all__'
-        exclude = ('clients',)
+        exclude = ('company', "status",)
 
 
 class ClientForm(forms.ModelForm):
@@ -17,3 +17,11 @@ class ClientForm(forms.ModelForm):
         model = Client
         fields = '__all__'
         exclude = ('company',)
+
+
+class MessageForm(forms.ModelForm):
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+        exclude = ('owner',)

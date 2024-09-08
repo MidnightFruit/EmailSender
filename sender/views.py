@@ -1,13 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import PermissionDenied
-from django.forms import inlineformset_factory
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView, DeleteView
 
-from sender.forms import SenderForm, ClientForm
-from sender.models import Sender, Client
-
+from sender.forms import SenderForm, ClientForm, MessageForm
+from sender.models import Sender, Client, Message
 
 class ClientTemplateView(TemplateView):
     template_name = 'sender/client.html'
@@ -64,6 +61,7 @@ class SenderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         sender = form.save()
         sender.company = self.request.user
+        sender.status = Sender.STATUSES[1][0]
         sender.save()
         return super().form_valid(form)
 
@@ -76,7 +74,7 @@ class SenderUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('company:login')
     redirect_field_name = 'redirect_to'
     model = Sender
-    fields = ('title', 'clients', 'frequency', 'status')
+    fields = ('title', 'clients', 'frequency', 'status', 'message')
 
 
 class SenderTemplateView(TemplateView):
@@ -90,3 +88,44 @@ class SenderTemplateView(TemplateView):
 class SenderListView(ListView):
     model = Sender
 
+
+class MessageListView(ListView):
+    model = Message
+    template_name = 'sender/message_list.html'
+
+
+class MessageTemplateView(TemplateView):
+    template_name = 'sender/message.html'
+
+    def get(self, request, pk):
+        context = {'object': Message.objects.get(pk=pk)}
+        return render(request, self.template_name, context)
+
+
+class MessageCreateView(CreateView):
+    login_url = reverse_lazy('company:login')
+    redirect_field_name = 'redirect_to'
+    model = Message
+    success_url = reverse_lazy('sender:message_list')
+    form_class = MessageForm
+
+    def form_valid(self, form):
+        message = form.save()
+        message.owner = self.request.user
+        message.save()
+        return super().form_valid(form)
+
+
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('company:login')
+    redirect_field_name = 'redirect_to'
+    success_url = reverse_lazy('sender:message_list')
+    model = Message
+    form_class = MessageForm
+
+
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('company:login')
+    redirect_field_name = 'redirect_to'
+    model = Message
+    success_url = reverse_lazy('sender:message_list')

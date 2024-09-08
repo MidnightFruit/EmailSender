@@ -10,7 +10,7 @@
     </div>
 
     <div class="px-3  mx-auto row">
-        <div class="list-group position-center">
+        <div class="row">
             {% for client in object_list %}
                 {% if user.email == client.company.email %}
                      <div class="col-md-4 text-center">
@@ -24,7 +24,10 @@
                                     Ф.И.О. {{ client.name }} {{ client.surname }} {{ client.patronymic }}
                                 </p>
                                 <p>
-                                    {{ client.company.company_name }}
+                                    Компания: {{ client.company.company_name }}
+                                </p>
+                                <p>
+                                    {{ client.comment }}
                                 </p>
                                 <a type="button" class="btn btn-lg btn-block btn-outline-primary" href={% url "sender:client" pk=client.pk %}>Подробно</a>
                                 <a type="button" class="btn btn-warning" href={% url "sender:update_client" pk=client.pk %} >Изменить </a>

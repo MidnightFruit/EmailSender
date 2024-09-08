@@ -14,7 +14,10 @@
             <div class="col-md-6">
                 <h1>{{ object.title }}</h1>
                 <h2>{{ object.company.company_name }}</h2>
-                <p class="lead">Клиенты {{ object.clients }}</p>
+                <p class="lead">Клиенты</p>
+                {% for client in object.clients.all %}
+                    {{ client.name }} {{ client.patronymic }}: {{ client.email }}{% if not forloop.last %}, {% else %}.{% endif %}
+                {% endfor %}
                 <p class="text-muted">Частота рассылки: {{ object.frequency }}</p>
                 <p class="text-muted">Статус: {{ object.status }}</p>
                 <p class="text-muted">Дата создания: {{ object.created_at }}</p>

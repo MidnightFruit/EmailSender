@@ -1,9 +1,11 @@
 from django.urls import path
+from setuptools.extern import names
 
 from sender.apps import SenderConfig
 
 from sender.views import SenderCreateView, SenderListView, SenderTemplateView, ClientListView, ClientCreateView, \
-    ClientUpdateView, ClientDeleteView, ClientTemplateView
+    ClientUpdateView, ClientDeleteView, ClientTemplateView, MessageListView, MessageCreateView, MessageDeleteView, \
+    MessageUpdateView, MessageTemplateView
 
 app_name = SenderConfig.name
 
@@ -15,5 +17,10 @@ urlpatterns = [
     path('add_client/', ClientCreateView.as_view(), name='create_client'),
     path('update_client/<int:pk>/', ClientUpdateView.as_view(), name='update_client'),
     path('delete_client/<int:pk>/', ClientDeleteView.as_view(), name='delete_client'),
-    path('client/<int:pk>/', ClientTemplateView.as_view(), name='client')
+    path('client/<int:pk>/', ClientTemplateView.as_view(), name='client'),
+    path('messages_templates/', MessageListView.as_view(), name='message_list'),
+    path('create_messages/', MessageCreateView.as_view(), name='create_message'),
+    path('update_message/<int:pk>/', MessageUpdateView.as_view(), name='update_message'),
+    path('delete_message/<int:pk>/', MessageDeleteView.as_view(), name='delete_message'),
+    path('message/<int:pk>/', MessageTemplateView.as_view(), name='message')
 ]
