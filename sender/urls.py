@@ -1,5 +1,5 @@
 from django.urls import path
-from setuptools.extern import names
+from django.views.decorators.cache import cache_page
 
 from sender.apps import SenderConfig
 
@@ -22,5 +22,5 @@ urlpatterns = [
     path('create_messages/', MessageCreateView.as_view(), name='create_message'),
     path('update_message/<int:pk>/', MessageUpdateView.as_view(), name='update_message'),
     path('delete_message/<int:pk>/', MessageDeleteView.as_view(), name='delete_message'),
-    path('message/<int:pk>/', MessageTemplateView.as_view(), name='message')
+    path('message/<int:pk>/', cache_page(60)(MessageTemplateView.as_view()), name='message')
 ]
