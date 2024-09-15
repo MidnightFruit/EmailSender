@@ -10,13 +10,13 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
 from users.forms import RegisterForm, UserProfileForm
-from users.models import Company
+from users.models import User
 
 from config.settings import EMAIL_HOST_USER
 
 
 class RegisterView(CreateView):
-    model = Company
+    model = User
     form_class = RegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('company:login')
@@ -37,7 +37,7 @@ class RegisterView(CreateView):
 
 
 def email_verification(request, token):
-    user = get_object_or_404(Company, token=token)
+    user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
     return redirect(reverse("company:login"))
@@ -50,7 +50,7 @@ class RestorePassword(PasswordResetView):
 
     def form_valid(self, form):
         email = form.cleaned_data['email']
-        user = Company.objects.get(email=email)
+        user = User.objects.get(email=email)
         if user:
             characters = string.ascii_letters + string.digits + string.punctuation
             new_password = ''.join(random.choice(characters) for _ in range(12))
@@ -65,7 +65,7 @@ class RestorePassword(PasswordResetView):
 
 
 class ProfileView(UpdateView):
-    model = Company
+    model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('company:profile')
 

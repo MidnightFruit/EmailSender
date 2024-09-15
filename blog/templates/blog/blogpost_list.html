@@ -30,6 +30,9 @@
                     <p>{{ article.content }}</p>
                 </div>
                 <p>{{ article.viewed }}</p>
+                <div class="button-group">
+                    <a class="btn btn-light" href={% url "blog:read_post" pk=article.pk %} >Прочитать статью</a>
+                </div>
             </div>
             {% endif %}
         {% endfor %}

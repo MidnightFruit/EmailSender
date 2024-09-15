@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-from users.models import Company
+from users.models import User
 
 
 class Client(models.Model):
@@ -12,7 +12,7 @@ class Client(models.Model):
     patronymic = models.CharField(max_length=25, verbose_name='отчество', null=False, blank=False)
     email = models.EmailField(verbose_name='почта', null=False, blank=False)
     comment = models.TextField(max_length=255, verbose_name="комментарий")
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="компания", null=True, blank=True, default=None)
+    company = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="компания", null=True, blank=True, default=None)
 
     class Meta:
         verbose_name = "клиент"
@@ -25,7 +25,7 @@ class Client(models.Model):
 class Message(models.Model):
     header = models.CharField(max_length=100, verbose_name="заголовок сообщения")
     body = models.TextField(verbose_name="текст сообщения")
-    owner = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     class Meta:
         verbose_name = "сообщение"
@@ -45,7 +45,7 @@ class Sender(models.Model):
         ("запущена", "Рассылка запущена")
     ]
     title = models.CharField(max_length=255, verbose_name='тема рассылки')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="компания", null=True, blank=True, default=None)
+    company = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="компания", null=True, blank=True, default=None)
     clients = models.ManyToManyField(Client, verbose_name="клиенты", related_name='clients')
     message = models.ForeignKey(Message, on_delete=models.SET_NULL, verbose_name='сообщение', null=True, blank=True, default=None)
     created_at = models.DateTimeField(verbose_name="дата и время создания рассылки", auto_now_add=True)

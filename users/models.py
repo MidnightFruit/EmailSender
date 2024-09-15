@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class Company(AbstractUser):
+class User(AbstractUser):
     username = None
 
     USERNAME_FIELD = 'email'

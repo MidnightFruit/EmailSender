@@ -1,6 +1,6 @@
 import random
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from blog.models import BlogPost
 from sender.models import Sender, Client
@@ -35,3 +35,16 @@ class BlogPostListView(ListView):
         context_data['third_post'] = third_post
 
         return context_data
+
+
+class BlogPostDetailView(DetailView):
+    model = BlogPost
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.object = None
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.viewed += 1
+        self.object.save()
+        return self.object
