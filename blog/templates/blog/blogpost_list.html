@@ -19,6 +19,7 @@
 <body>
 
     <div id="articles">
+        {% csrf_token %}
         {% for article in object_list %}
             {% if article.pk == first_post or article.pk == second_post or article.pk == third_post %}
             <div class="article">

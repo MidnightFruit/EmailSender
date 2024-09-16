@@ -58,6 +58,9 @@ class Sender(models.Model):
     class Meta:
         verbose_name = "рассылка"
         verbose_name_plural = "рассылки"
+        permissions = [
+            ("can_switch_sending", "can switch sending"),
+        ]
 
 
 

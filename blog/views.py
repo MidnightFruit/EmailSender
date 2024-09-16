@@ -25,7 +25,12 @@ class BlogPostListView(ListView):
 
         posts = BlogPost.objects.all()
         try:
-            first_post, second_post, third_post = random.sample(range(1, len(posts) + 1), 3)
+            if len(posts) < 3:
+                first_post = 1
+                second_post = 2
+                third_post = 3
+            else:
+                first_post, second_post, third_post = random.sample(range(1, len(posts) + 1), 3)
         except:
             first_post = None
             second_post = None
@@ -39,9 +44,6 @@ class BlogPostListView(ListView):
 
 class BlogPostDetailView(DetailView):
     model = BlogPost
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-        self.object = None
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)

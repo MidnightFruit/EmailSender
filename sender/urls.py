@@ -5,7 +5,7 @@ from sender.apps import SenderConfig
 
 from sender.views import SenderCreateView, SenderListView, SenderTemplateView, ClientListView, ClientCreateView, \
     ClientUpdateView, ClientDeleteView, ClientTemplateView, MessageListView, MessageCreateView, MessageDeleteView, \
-    MessageUpdateView, MessageTemplateView
+    MessageUpdateView, MessageTemplateView, AttemptsListView
 
 app_name = SenderConfig.name
 
@@ -22,5 +22,6 @@ urlpatterns = [
     path('create_messages/', MessageCreateView.as_view(), name='create_message'),
     path('update_message/<int:pk>/', MessageUpdateView.as_view(), name='update_message'),
     path('delete_message/<int:pk>/', MessageDeleteView.as_view(), name='delete_message'),
-    path('message/<int:pk>/', cache_page(60)(MessageTemplateView.as_view()), name='message')
+    path('message/<int:pk>/', cache_page(60)(MessageTemplateView.as_view()), name='message'),
+    path('attempts_list/', AttemptsListView.as_view(), name='attempts_list')
 ]

@@ -4,7 +4,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView, DeleteView
 
 from sender.forms import SenderForm, ClientForm, MessageForm
-from sender.models import Sender, Client, Message
+from sender.models import Sender, Client, Message, DeliveryAttempt
+
 
 class ClientTemplateView(TemplateView):
     template_name = 'sender/client.html'
@@ -129,3 +130,19 @@ class MessageDeleteView(LoginRequiredMixin, DeleteView):
     redirect_field_name = 'redirect_to'
     model = Message
     success_url = reverse_lazy('sender:message_list')
+
+
+class AttemptsListView(LoginRequiredMixin, ListView):
+    model = DeliveryAttempt
+    template_name = 'sender/attempt_list.html'
+    login_url = reverse_lazy('company:login')
+    redirect_field_name = 'redirect_to'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        logs = DeliveryAttempt.objects.all()
+        users_logs = []
+        for log in logs:
+            if log.sender.company == self.request.user:
+                users_logs.append(log)
+        context_data['logs'] = users_logs
+        return context_data

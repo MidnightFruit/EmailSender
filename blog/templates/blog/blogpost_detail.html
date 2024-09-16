@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>{{ object.title }}</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet">
-</head>
+{% include 'includes/inc_menu.html' %}
 
 <body>
     <header>
@@ -15,6 +10,7 @@
 
     <main>
         <article>
+            {% csrf_token %}
             <div class="content">
                 {{ object.content|linebreaks }}
             </div>
